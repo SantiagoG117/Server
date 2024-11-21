@@ -38,7 +38,7 @@ export async function getUser(email, password){
    }
 }
 
-export async function userExists(email){
+async function userExists(email){
    try {
       const [result] = await pool.query(
          `
@@ -55,7 +55,6 @@ export async function userExists(email){
       console.log('Error querying the database: ', error);
    }
 }
-
 
 export async function registerNewUser(username, password, email) {
    // Get a connection from the pool
@@ -100,16 +99,14 @@ export async function registerNewUser(username, password, email) {
 
 
 //? Waste Data Input Requests: ---------------------------------------------------------------------------------------------------------------------------------
-export async function getCategoriesWithWasteitems() {
+export async function getCategories() {
    try {
       const [result] = await pool.query(
          `
          SELECT
-            DISTINCT t1.name,
-            t1.id
-         FROM categories t1
-         LEFT JOIN wasteitems t2 on t1.id = t2.category_id
-         WHERE t1.name IS NOT NULL AND t1.id IS NOT NULL;
+            id,
+            name
+         FROM CATEGORIES;
          `
       );
       return result;
@@ -178,9 +175,8 @@ export async function createNewWasteRecord (username, wasteItemID, unitOfMeasure
    } catch (error) {
       // Rollback the transaction in case of error
       await connection.rollback();
-      console.log('Error during registration:', error);
       connection.release(); 
-      throw error; 
+      return false;
    }
 }
 
@@ -221,8 +217,5 @@ export async function getBulkWasteHistory(username) {
       console.log('Error querying the database', error);
    }
 }
-
-getBulkWasteHistory('SantiagoGP117');
-
 
 
