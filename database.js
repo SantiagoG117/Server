@@ -105,7 +105,8 @@ export async function getCategories() {
          `
          SELECT
             id,
-            name
+            name,
+            icon_name
          FROM CATEGORIES;
          `
       );
