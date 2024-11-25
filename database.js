@@ -123,7 +123,8 @@ export async function getWasteItemsByCategory(categoryID){
          `SELECT
             id,
             name,
-            category_id
+            category_id,
+            icon_name
          FROM wasteitems
          WHERE category_id = ?;`,
          [categoryID]
